@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpointe Investments</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootsnav.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/animate.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/style.css">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <style>
+        .vertical{
+            position: relative;
+            top: 30%;
+        }
+    </style>
+</head>
+<body>
+{% load static %}
+    <div class="wrapper">
+        <nav class="navbar navbar-default bootsnav on no-full" role="navigation" style="height: 100px; width: 100%;background-color: #243141">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="logo" href="https://www.sunpointeinvestments.com/">
+                        <img src="/static/images/logo-white.png" alt="sunpointe-logo" width="240" height="102.74" style="margin-top: 30px;margin-left: 80px">
+                    </a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li class="active" style="margin-top: 50px;margin-left: 100px;font-size: 20px">
+                            <a class="newfont1" style="font-weight: lighter" href="/">Home</a></li>
+                        <li style="margin-top: 50px;margin-left: 30px;font-size: 20px">
+                            <a class="newfont1" style="font-weight: lighter" href="../slr">Questionnaire</a></li>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+            <div class="section" style="height: 400px;width: 100%;background-color: #243141">
+                <h5 class="newfont2" style="margin-left: 95px;margin-top: 55px; color: #f1761c; font-weight: lighter">BEFORE YOU INVEST</h5>
+                <h1 class="newfont1" style="margin-left: 95px; color: white;">Risk Tolerance & Behavioral Questionnaire</h1>
+            </div>
+            <div class="container" style="margin-top: -100px">
+                <div class="row text-center">
+                    <div class="col-md-6 col-md-offset-3" style="background-color: #deebfb; height: 300px; border-radius: 20px">
+                        <div class="vertical">
+                            <form action="{% url 'clientLogin' %}" method="POST">
+                                {% csrf_token %}
+                                <input name="id" type="text" placeholder="Please type your user ID">
+                                <br><input name="password" type="password" placeholder="Please type your password" style="margin-top: 20px">
+                                <br><button type="submit" style="margin-top: 20px">Log In</button>
+                                {% if error %}
+                                    <p style="color: red;">{{ error }}</p>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body> 
+</html>

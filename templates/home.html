@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpointe Investments</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootsnav.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/animate.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/style.css">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
+    <style>
+        .vertical{
+            position: relative;
+            top: 40%;
+        }
+    </style>
+</head>
+<body>
+{% load static %}
+    <div class="wrapper">
+        <nav class="navbar navbar-default bootsnav on no-full" role="navigation" style="height: 100px; width: 100%;background-color: #243141">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="logo" href="https://www.sunpointeinvestments.com/">
+                        <img src="/static/images/logo-white.png" alt="sunpointe-logo" width="240" height="102.74" style="margin-top: 30px;margin-left: 80px">
+                    </a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li class="active" style="margin-top: 50px;margin-left: 100px;font-size: 20px">
+                            <a class="newfont1" style="font-weight: lighter" href="/">Home</a></li>
+                        <li style="margin-top: 50px;margin-left: 30px;font-size: 20px">
+                            <a class="newfont1" style="font-weight: lighter" href="../slr">Questionnaire</a></li>
+                        <li style="margin-top: 50px;margin-left: 30px;font-size: 20px">
+                            <a class="newfont1" style="font-weight: lighter" href="../result">Report</a></li>
+                        {% if request.session.is_empty or not id %}
+                            <li style="margin-top: 50px;margin-left: 500px;font-size: 15px">
+                                <a class="newfont1" style="font-weight: lighter" href="../login" >Client Login</a>
+                            </li>
+                        {% else %}
+                            <li style="margin-top: 63px;margin-left: 400px">
+                                <h1 class="newfont1" style="font-weight: lighter;font-size: 15px;color: #f1761c">WELCOME, {{ id }}</h1>
+                            </li>
+                            <li style="margin-top: 73px;margin-left: 20px">
+                                <form action="{% url 'clientLogout' %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="newfont1 newbutton" style="font-weight: lighter;font-size: 15px;color: white">Log Out</button>
+                                    {% if error %}
+                                        <h1>{{ error }}</h1>
+                                    {% endif %}
+                                </form>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+            <ul class="section" style="height: 400px;width: 100%;background-color: #243141">
+                <li style="list-style-type:none;"><h5 class="newfont2" style="margin-left: 95px;margin-top: 55px; color: #f1761c; font-weight: lighter">BEFORE YOU INVEST</h5></li>
+                <li><h1 class="newfont1" style="margin-left: 95px; color: white;">Risk Tolerance & Behavioral Questionnaire</h1></li>
+            </ul>
+            <div class="container" style="margin-top: -100px">
+                <div class="row text-center">
+                    <div class="col-md-6 col-md-offset-3" style="background-color: #deebfb; height: 300px; border-radius: 20px">
+                        <div class="vertical">
+                            <a href="{% url 'slr' %}">
+                                <h2 class="newfont1" style="color: #243141">Take the Questionnaire</h2>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>

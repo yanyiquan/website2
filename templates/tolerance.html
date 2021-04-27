@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpointe Investments</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootsnav.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/animate.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/style.css">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <script type="text/javascript" src="/static/plugins/jquery/jquery.min.js"></script>
+    <style>
+        .vertical {
+            position: relative;
+            top: 10%;
+        }
+
+        .vertical2 {
+            position: relative;
+            top: 5%;
+        }
+
+        input[type="radio"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .newmask {
+            position: relative;
+            margin: 35px auto;
+            height: 30px;
+            width: 50%;
+            background-color: #243141;
+            border-radius: 3px;
+        }
+
+        .newline {
+            position: relative;
+            left: 5px;
+            top: 5px;
+            width: 22%;
+            border-top: 20px solid #f1761c;
+        }
+
+        .num {
+            height: 25px;
+            width: 45px;
+            position: absolute;
+            left: 35%;
+            top: 5px;
+            text-align: center;
+            color: #243141;
+            font-size: 16px;
+        }
+        .actions *:last-child{
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+{% load static %}
+<div class="wrapper">
+    <nav class="navbar navbar-default bootsnav on no-full text-center" role="navigation"
+         style="height: 25px;width: 100%;background-color: #f1761c;position: fixed">
+        <p class="newfont2" style="margin-top: 12px;color: white;font-weight: lighter;font-size: 16px">Your answers will
+            not be shared and are a way for us to comply with FINRA Rule 2090 (know your client) and FINRA Rule 2111
+            (Suitability), include hyper link to website.</p>
+    </nav>
+    <nav class="navbar navbar-default bootsnav on no-full" role="navigation"
+         style="height: 100px;width: 100%;background-color: #243141">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="logo" href="https://www.sunpointeinvestments.com/">
+                    <img src="/static/images/logo-white.png" alt="sunpointe-logo" width="240" height="102.74"
+                         style="margin-top: 30px;margin-left: 80px">
+                </a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li style="margin-top: 50px;margin-left: 100px;font-size: 20px">
+                        <a class="newfont1" style="font-weight: lighter" href="/">Home</a></li>
+                    <li class="active" style="margin-top: 50px;margin-left: 30px;font-size: 20px">
+                        <a class="newfont1" style="font-weight: lighter" href="../slr">Questionnaire</a></li>
+                    <li style="margin-top: 50px;margin-left: 30px;font-size: 20px">
+                        <a class="newfont1" style="font-weight: lighter" href="../result">Report</a></li>
+                    {% if not request.session.is_empty %}
+                        <li style="margin-top: 63px;margin-left: 500px">
+                            <h1 class="newfont1" style="font-weight: lighter;font-size: 15px;color: #f1761c">
+                                WELCOME, {{ id }}</h1>
+                        </li>
+                    {% else %}
+                        <li style="margin-top: 50px;margin-left: 500px;font-size: 15px">
+                            <a class="newfont1" style="font-weight: lighter" href="../login">Client Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="section" style="height: 400px;width: 100%;background-color: #243141">
+        <h5 class="newfont2" style="margin-left: 95px; margin-top: 55px; color: #f1761c; font-weight: lighter">
+            QUESTIONNAIRE</h5>
+        <h1 class="newfont1" style="margin-left: 95px; color: white;">Baseline Risk Tolerance</h1>
+    </div>
+    <div class="container" style="margin-top: -100px">
+        {% if not request.session.is_empty %}
+            <form action="{% url 'submitTolerance' %}" method="post" id="form-tolerance">
+                {% csrf_token %}
+                <input type="hidden" name="cid" value="{{ id }}">
+                <input type="hidden" name="pid" value="tolerance">
+                <input type="hidden" name="qid" value="{{ questions.id }}">
+                <ul style="margin-left: -20px">
+                    {% for question in questions %}
+                        <div class="row text-center" style="margin-bottom: 30px">
+                            <div class="col-md-6 col-md-offset-3"
+                                 style="background-color: #deebfb; height: 600px; border-radius: 20px">
+                                <div class="vertical">
+                                    <li style="list-style-type:none" id="{{ forloop.counter }}">
+                                        <h5 class="newfont1" style="color: #243141">{{ question.title }}</h5>
+                                    </li>
+                                    <div>
+                                        <ul>
+                                            <div class="text-center newfont2">
+                                                {% if question.optionA %}
+                                                    <li class="text-left" style="list-style-type:none">
+                                                        <label style="display: inline">
+                                                            <input type="radio" name="{{ question.id }}" value="A"
+                                                                   {% if question.answered is not None and question.answered.answer == "A" %}checked{% else %}{% endif %}/>
+                                                            {% if question.optionA|length > 100 %}
+                                                                <div class="longoption"
+                                                                     style="margin-left: 10px; padding-left: 10px;padding-right: 5px">
+                                                                    <p class="vertical2"
+                                                                       style="display: inline">{{ question.optionA }}</p>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="newoption" style="margin-left: 10px"><p
+                                                                        class="vertical"
+                                                                        style="margin-left: 10px;display: inline">{{ question.optionA }}</p>
+                                                                </div>
+                                                            {% endif %}
+                                                        </label>
+                                                    </li>
+                                                {% endif %}
+                                                {% if question.optionB %}
+                                                    <li class="text-left" style="list-style-type:none">
+                                                        <label style="display: inline">
+                                                            <input type="radio"
+                                                                   name="{{ question.id }}"
+                                                                   value="B"
+                                                                   {% if question.answered is not None and question.answered.answer == "B" %}checked{% else %}{% endif %}/>
+                                                            {% if question.optionB|length > 100 %}
+                                                                <div class="longoption"
+                                                                     style="margin-left: 10px; padding-left: 10px;padding-right: 5px">
+                                                                    <p class="vertical2"
+                                                                       style="display: inline">{{ question.optionB }}</p>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="newoption" style="margin-left: 10px"><p
+                                                                        class="vertical"
+                                                                        style="margin-left: 10px;display: inline">{{ question.optionB }}</p>
+                                                                </div>
+                                                            {% endif %}
+                                                        </label>
+                                                    </li>
+                                                {% endif %}
+                                                {% if question.optionC %}
+                                                    <li class="text-left" style="list-style-type:none">
+                                                        <label style="display: inline">
+                                                            <input type="radio"
+                                                                   name="{{ question.id }}"
+                                                                   value="C"
+                                                                   {% if question.answered is not None and question.answered.answer == "C" %}checked{% else %}{% endif %}/>
+                                                            {% if question.optionC|length > 100 %}
+                                                                <div class="longoption"
+                                                                     style="margin-left: 10px; padding-left: 10px;padding-right: 5px">
+                                                                    <p class="vertical2"
+                                                                       style="display: inline">{{ question.optionC }}</p>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="newoption" style="margin-left: 10px"><p
+                                                                        class="vertical"
+                                                                        style="margin-left: 10px;display: inline">{{ question.optionC }}</p>
+                                                                </div>
+                                                            {% endif %}
+                                                        </label>
+                                                    </li>
+                                                {% endif %}
+                                                {% if question.optionD %}
+                                                    <li class="text-left" style="list-style-type:none">
+                                                        <label style="display: inline">
+                                                            <input type="radio" name="{{ question.id }}" value="D"
+                                                                   {% if question.answered is not None and question.answered.answer == "D" %}checked{% else %}{% endif %}/>
+                                                            {% if question.optionD|length > 100 %}
+                                                                <div class="longoption"
+                                                                     style="margin-left: 10px;padding-left: 10px;padding-right: 5px">
+                                                                    <p class="vertical2"
+                                                                       style="display: inline">{{ question.optionD }}</p>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="newoption" style="margin-left: 10px"><p
+                                                                        class="vertical"
+                                                                        style="margin-left: 10px;display: inline">{{ question.optionD }}</p>
+                                                                </div>
+                                                            {% endif %}
+                                                        </label>
+                                                    </li>
+                                                {% endif %}
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+                <div class="col-md-6 col-md-offset-3 text-center" style="margin-bottom: 30px">
+                    <a href="/slr/?cid={{ id }}">
+                        <button type="button" id="form-tolerance-prev">Prev</button>
+                    </a>
+                    <input type="submit" name="submit_answer" value="Next">
+                </div>
+
+                {% include "get_report.html" %}
+            </form>
+        {% else %}
+            <div class="row text-center" style="margin-bottom: 30px">
+                <div class="col-md-6 col-md-offset-3"
+                     style="background-color: #deebfb; height: 400px; border-radius: 20px">
+                    <div>
+                        <h2 class="newfont1" style="margin-top: 170px;color: #243141">Please log in first</h2>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div style="height: 100px;width: 100%"></div>
+</div>
+<div style="position: fixed;bottom: 0;width: 100%;height: 75px;background-color: white">
+    <div class="num newfont1">20%</div>
+    <div class="newmask">
+        <div class="newline"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/custom.js"></script>
+</body>
+</html>

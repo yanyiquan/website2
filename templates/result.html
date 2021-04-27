@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunpointe Investments</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootsnav.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/animate.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/style.css">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <style>
+        .vertical{
+            position: relative;
+            top: 5%;
+        }
+    </style>
+</head>
+<body>
+{% load static %}
+    <div class="wrapper">
+        <nav class="navbar navbar-default bootsnav on no-full" role="navigation" style="height: 100px;width: 100%;background-color: #243141">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="logo" href="https://www.sunpointeinvestments.com/">
+                        <img src="/static/images/logo-white.png" alt="sunpointe-logo" width="240" height="102.74" style="margin-top: 30px;margin-left: 80px">
+                    </a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li style="margin-top: 50px;margin-left: 100px;font-size: 20px">
+                            <a class="newfont1" style="font-weight: lighter" href="/">Home</a></li>
+                        <li style="margin-top: 50px;margin-left: 30px;font-size: 20px">
+                            <a class="newfont1" style="font-weight: lighter" href="../slr">Questionnaire</a></li>
+                        <li class="active" style="margin-top: 50px;margin-left: 30px;font-size: 20px">
+                            <a class="newfont1" style="font-weight: lighter" href="../result">Report</a></li>
+                        {% if not request.session.is_empty %}
+                            <li style="margin-top: 63px;margin-left: 500px">
+                                <h1 class="newfont1" style="font-weight: lighter;font-size: 15px;color: #f1761c">WELCOME, {{ id }}</h1>
+                            </li>
+                        {% else %}
+                            <li style="margin-top: 50px;margin-left: 500px;font-size: 15px">
+                                <a class="newfont1" style="font-weight: lighter" href="../login" >Client Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+            <div class="visible-print" style="display: none;margin-bottom: -50px">
+                <img src="/static/images/logo-blue.png" alt="blue" width="120" height="51.37" style="margin-top: 30px;margin-left: 35px">
+            </div>
+            <div class="section" style="height: 400px;width: 100%;background-color: #243141">
+                <h5 class="visible-print newfont2" style="display: none; margin-left: 35px; margin-top: 55px; color: #f1761c; font-weight: lighter">QUESTIONNAIRE RESULT</h5>
+                <h5 class="hidden-print newfont2" style="margin-left: 95px; margin-top: 55px; color: #f1761c; font-weight: lighter">QUESTIONNAIRE RESULT</h5>
+                <h1 class="visible-print newfont1" style="display: none; margin-left: 35px; color: white;">Your Summary Report</h1>
+                <h1 class="hidden-print newfont1" style="margin-left: 95px; color: white;">Your Summary Report</h1>
+            </div>
+            <div class="container" style="margin-top: -100px">
+                {% if not request.session.is_empty %}
+                        <ul style="margin-left: -20px">
+                        <div class="row text-left" style="margin-bottom: 30px">
+                            {% if trends|length > 500 %}
+                            <div class="col-md-12" style="background-color: #deebfb; height: 2000px; border-radius: 20px">
+                            {% else %}
+                            <div class="col-md-12" style="background-color: #deebfb; height: 1800px; border-radius: 20px">
+                            {% endif %}
+                                <div class="text-right hidden-print" style="margin-right: 10px; margin-top: 5px">
+                                    <a style="color: #545c5a" href="../downloadreport">
+                                        <h5 class="newfont1" style="color: #545c5a">Download Your Report</h5>
+                                </a></div>
+                                <div class="vertical">
+                                    <li style="list-style-type:none">
+                                        <div class="text-center" style="margin-top: -70px">
+                                            <h3 class="newfont1" style="color: #243141">You are {{ temp }} {{ bit }}</h3>
+                                        </div>
+                                        <h4 class="newfont1" style="margin-top: 30px;color: #243141">Your behavioral investor type:</h4>
+                                        <h4 class="newfont1" style="color: #006044">{{ bit }}</h4>
+                                        <h4 class="newfont2" style="font-weight: lighter; color: #545c5a; white-space: pre-line">{{ description }}</h4>
+                                        <h4 class="newfont1" style="margin-top: 30px;color: #243141">Baseline Risk Tolerance:</h4>
+                                        {% if slr < 40 %}
+                                            <h4 class="newfont2" style="font-weight: lighter; color: #545c5a; white-space: pre-line">{{ description1 }}</h4>
+                                        {% elif slr > 40 and slr < 70 %}
+                                            <h4 class="newfont2" style="font-weight: lighter; color: #545c5a; white-space: pre-line">{{ description2 }}</h4>
+                                        {% else %}
+                                            <h4 class="newfont2" style="font-weight: lighter; color: #545c5a; white-space: pre-line">{{ description3 }}</h4>
+                                        {% endif %}
+                                        <h4 class="newfont1" style="color: #243141;margin-top: 40px">Your SLR result:</h4>
+                                        <h4 class="newfont1" style="color: #006044">{% widthratio slr 1 100 %}%</h4>
+                                        <table border="2" class="newfont1">
+                                            <tr>
+                                                <th class="text-center" style="font-size: 18px;padding: 5px">SLR</th>
+                                                <th class="text-center" style="font-size: 18px;padding: 5px">Below 40%</th>
+                                                <th class="text-center" style="font-size: 18px;padding: 5px">40% - 70%</th>
+                                                <th class="text-center" style="font-size: 18px;padding: 5px">Above 70%</th>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center" style="font-size: 18px;padding: 5px">Lifestyle Description</td>
+                                                <td class="text-center" style="font-size: 18px;padding: 5px">Risky Lifestyle</td>
+                                                <td class="text-center" style="font-size: 18px;padding: 5px">Moderate Risk Lifestyle</td>
+                                                <td class="text-center" style="font-size: 18px;padding: 5px">Low Risk Lifestyle</td>
+                                            </tr>
+                                        </table>
+                                        <h4 class="newfont1" style="margin-top: 40px;color: #243141">ESG Preferences:</h4>
+                                        <h4 class="newfont1" style="color: #006044">{{ esg }}</h4>
+                                        <h4 class="newfont1" style="margin-top: 30px;color: #243141">Trends:</h4>
+                                        <h4 class="newfont1" style="color: #006044">{{ trends }}</h4>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                {% else %}
+                    <div class="row text-center" style="margin-bottom: 30px">
+                            <div class="col-md-6 col-md-offset-3" style="background-color: #deebfb; height: 400px; border-radius: 20px">
+                                <div>
+                                    <h2 class="newfont1" style="margin-top: 170px;color: #243141">Please log in first</h2>
+                                </div>
+                            </div>
+                    </div>
+                {% endif %}
+            </div>
+    </div>
+</body>
+</html>
