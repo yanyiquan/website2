@@ -757,27 +757,6 @@ def dlreport(request):
         else:
             text.setFont('Times-Bold', 14, leading=1.5 * p._leading)
         text.textLines(list(temp.values())[i])
-    # for line in a5:
-    #     _, y = text.getCursor()
-    #     if y < 50:
-    #         p.drawText(text)
-    #         p.showPage()
-    #         p.setFont('Times-Roman', 16)
-    #         text = p.beginText()
-    #         text.setTextOrigin(55, height - 70)
-    #     text.setFont('Times-Roman', 14, leading=1.5 * p._leading)
-    #     text.textLines(line)
-    # text.textLines(' ')
-    # for line in a6:
-    #     _, y = text.getCursor()
-    #     if y < 50:
-    #         p.drawText(text)
-    #         p.showPage()
-    #         p.setFont('Times-Italic', 16)
-    #         text = p.beginText()
-    #         text.setTextOrigin(55, height - 70)
-    #     text.setFont('Times-Italic', 14, leading=1.5 * p._leading)
-    #     text.textLines(line)
     p.drawText(text)
     p.showPage()
     p.save()
